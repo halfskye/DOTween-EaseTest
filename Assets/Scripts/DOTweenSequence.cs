@@ -90,8 +90,6 @@ public class DOTweenSequence : MonoBehaviour
         }
 
         _sequence = DOTween.Sequence();
-        SetSequenceEaseType();
-
         _sequence.OnComplete(StopSequence);
     }
 
@@ -99,10 +97,13 @@ public class DOTweenSequence : MonoBehaviour
     {
         SetupSequence();
         
-        _sequence.Prepend(_actor.transform
+        var moveTweener = _actor.transform
             .DOMove(_end.position, _moveDuration)
-            .From(_start.position)
-        );
+            .From(_start.position);
+        
+        SetSequenceEaseType(moveTweener);
+
+        _sequence.Append(moveTweener);
 
         _sequence.Play();
     }
@@ -113,7 +114,7 @@ public class DOTweenSequence : MonoBehaviour
         _sequence = null;
     }
 
-    private void SetSequenceEaseType()
+    private void SetSequenceEaseType(Tweener tweener)
     {
         switch (_easeStrategy)
         {
@@ -123,19 +124,19 @@ public class DOTweenSequence : MonoBehaviour
                     case Ease.InElastic:
                     case Ease.OutElastic:
                     case Ease.InOutElastic:
-                        _sequence.SetEase(_easeType, _elasticEaseAmplitude, _elasticEasePeriod);
+                        tweener.SetEase(_easeType, _elasticEaseAmplitude, _elasticEasePeriod);
                         break;
                     default:
-                        _sequence.SetEase(_easeType);
+                        tweener.SetEase(_easeType);
                         break;
                 }
 
                 break;
             case EaseStrategy.AnimationCurve:
-                _sequence.SetEase(_easeAnimationCurve);
+                tweener.SetEase(_easeAnimationCurve);
                 break;
             case EaseStrategy.CustomFunction:
-                _sequence.SetEase(GetCustomEaseFunction());
+                tweener.SetEase(GetCustomEaseFunction());
                 break;
         }
     }
