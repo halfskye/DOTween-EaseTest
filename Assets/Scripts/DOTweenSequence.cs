@@ -48,6 +48,12 @@ public class DOTweenSequence : MonoBehaviour
     [SerializeField] private Transform _testEnd = null;
     [SerializeField] private Transform _testActor = null;
 
+    [Header("Debug Log")]
+    [SerializeField] private bool _enableDOTweenSequenceLog = true;
+    [SerializeField] private string _debugLabelDOTween = "DOTween";
+    [SerializeField] private bool _enableTestSequenceLog = true;
+    [SerializeField] private string _debugLabelTest = "Test";
+
     private Sequence _sequence = null;
 
     private void Update()
@@ -168,7 +174,7 @@ public class DOTweenSequence : MonoBehaviour
                 _ => sample
             };
 
-            DebugLogSample("Test", sample);
+            DebugLogSample(_debugLabelTest, sample);
 
             _testActor.position = _testStart.position + (startToEnd * sample);
 
@@ -237,11 +243,14 @@ public class DOTweenSequence : MonoBehaviour
         var startToActor = (_actor.position - _start.position).magnitude;
         var sample = startToActor / startToEnd;
 
-        DebugLogSample("DOTween", sample);
+        DebugLogSample(_debugLabelDOTween, sample);
     }
 
     private void DebugLogSample(string label, float sample)
     {
+        if(label.Equals(_debugLabelDOTween) && !_enableDOTweenSequenceLog) return;
+        if(label.Equals(_debugLabelTest) && !_enableTestSequenceLog) return;
+        
         if (sample < 0f ||
             sample > 1f)
         {
@@ -249,7 +258,7 @@ public class DOTweenSequence : MonoBehaviour
         }
         else
         {
-            Debug.Log($"Sample: {sample}");
+            Debug.Log($"{label} Sample: {sample}");
         }
     }
 
