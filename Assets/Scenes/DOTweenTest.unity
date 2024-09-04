@@ -505,14 +505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b16f66a8bd0c9574f94fa896e9aa7407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _start: {fileID: 1644650269}
-  _end: {fileID: 440813740}
-  _actor: {fileID: 2105390982}
-  _testStart: {fileID: 1717759596}
-  _testEnd: {fileID: 1890759394}
-  _testActor: {fileID: 695680229}
-  _useSpeedBased: 0
-  _moveDuration: 1
+  _moveDuration: 3
   _easeStrategy: 1
   _easeType: 25
   _elasticEaseAmplitude: 1.70158
@@ -577,7 +570,17 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _easeCustomFunction: 1
+  _easeCustomFunction: 0
+  _start: {fileID: 1644650269}
+  _end: {fileID: 440813740}
+  _actor: {fileID: 2105390982}
+  _testStart: {fileID: 1717759596}
+  _testEnd: {fileID: 1890759394}
+  _testActor: {fileID: 695680229}
+  _enableDOTweenSequenceLog: 0
+  _debugLabelDOTween: DOTween
+  _enableTestSequenceLog: 0
+  _debugLabelTest: Test
 --- !u!1 &1610204155
 GameObject:
   m_ObjectHideFlags: 0

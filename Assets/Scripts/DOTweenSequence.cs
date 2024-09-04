@@ -162,15 +162,18 @@ public class DOTweenSequence : MonoBehaviour
         var startToEnd = _testEnd.position - _testStart.position;
         
         var time = 0f;
+        var timeAdjusted = 0f;
         var sample = 0f;
-        while (time < 1f)
+        while (time < 1f ||
+               timeAdjusted < 1f)
         {
-            time += (Time.deltaTime / _moveDuration);
+            time += Time.deltaTime;
+            timeAdjusted += (Time.deltaTime / _moveDuration);
 
             sample = _easeStrategy switch
             {
-                EaseStrategy.AnimationCurve => _easeAnimationCurve.Evaluate(time),
-                EaseStrategy.CustomFunction => GetCustomEaseFunction()(time, 0f, 0f, 0f),
+                EaseStrategy.AnimationCurve => _easeAnimationCurve.Evaluate(timeAdjusted),
+                EaseStrategy.CustomFunction => GetCustomEaseFunction()(time, _moveDuration, 0f, 0f),
                 _ => sample
             };
 
@@ -205,6 +208,7 @@ public class DOTweenSequence : MonoBehaviour
         float overshootOrAmplitude,
         float period)
     {
+        time /= duration;
         const float c4 = (2f * Mathf.PI) / 3f;
 
         return Mathf.Approximately(time, 0f)
@@ -220,6 +224,7 @@ public class DOTweenSequence : MonoBehaviour
         float overshootOrAmplitude,
         float period)
     {
+        time /= duration;
         const float c5 = (2f * Mathf.PI) / 4.5f;
 
         return Mathf.Approximately(time, 0f)
